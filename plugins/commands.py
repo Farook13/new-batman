@@ -10,16 +10,10 @@ from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, delete_files
 from database.users_chats_db import db
-from info import TIME_ZONE, FORCE_SUB_CHANNELS, STICKERS, INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, SHORTLINK_API, SHORTLINK_URL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, IS_STREAM, REACTIONS, PM_FILE_DELETE_TIME
+from info import TIME_ZONE, FORCE_SUB_CHANNELS, STICKERS, INDEX_CHANNELS, ADMINS, IS_VERIFY, VERIFY_TUTORIAL, VERIFY_EXPIRE, SHORTLINK_API, SHORTLINK_URL, DELETE_TIME, SUPPORT_LINK, UPDATES_LINK, LOG_CHANNEL, PICS, IS_STREAM, PM_FILE_DELETE_TIME
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish, get_seconds
 
 @Client.on_message(filters.command("start") & filters.incoming)
-async def start(client, message):
-    try:
-        await message.react(emoji=random.choice(REACTIONS), big=True)
-    except:
-        await message.react(emoji="⚡️", big=True)
-    d = await client.send_sticker(message.chat.id, random.choice(STICKERS))
     await asyncio.sleep(2)
     await d.delete()
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
