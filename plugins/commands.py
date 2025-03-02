@@ -14,7 +14,7 @@ from info import TIME_ZONE, FORCE_SUB_CHANNELS, INDEX_CHANNELS, ADMINS, IS_VERIF
 from utils import get_settings, get_size, is_subscribed, is_check_admin, get_shortlink, get_verify_status, update_verify_status, save_group_settings, temp, get_readable_time, get_wish, get_seconds
 
 @Client.on_message(filters.command("start") & filters.incoming)
-    await d.delete()
+async def start(client, message):
     if message.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         if not await db.get_chat(message.chat.id):
             total = await client.get_chat_members_count(message.chat.id)
@@ -37,7 +37,6 @@ from utils import get_settings, get_size, is_subscribed, is_check_admin, get_sho
     verify_status = await get_verify_status(message.from_user.id)
     if verify_status['is_verified'] and datetime.datetime.now(TIME_ZONE) > verify_status['expire_time']:
         await update_verify_status(message.from_user.id, is_verified=False)
-
 
     if (len(message.command) != 2) or (len(message.command) == 2 and message.command[1] == 'start'):
         buttons = [[
