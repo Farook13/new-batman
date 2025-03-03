@@ -28,14 +28,14 @@ API_HASH = environ.get('API_HASH', '49aacd0bc2f8924add29fb02e20c8a16')
 if len(API_HASH) == 0:
     print('Error - API_HASH is missing, exiting now')
     exit()
-BOT_TOKEN = environ.get('BOT_TOKEN', '7857321740:AAHSUfjwO3w6Uffmxm9vCUMl36FtXl5-r6w')
+BOT_TOKEN = environ.get('BOT_TOKEN', '7955983025:AAEJzeJxpoe_eay34TsaD7lWFn1DDuKjYyE')
 if len(BOT_TOKEN) == 0:
     print('Error - BOT_TOKEN is missing, exiting now')
     exit()
 PORT = int(environ.get('PORT', '8000'))
 
 # Bot pics
-PICS = (environ.get('PICS', ' https://graph.org/file/8ac9be0d690c03e4a6d58-052f8fcda4d18922b8.jpg https://envs.sh/t7j.jpg https://envs.sh/t7c.jpg  https://envs.sh/t7G.jpg https://envs.sh/t7L.jpg https://envs.sh/t7c.jpg https://envs.sh/t7_.jpg https://envs.sh/tzT.jpg   ')).split()
+PICS = (environ.get('PICS', ' https://graph.org/file/8ac9be0d690c03e4a6d58-052f8fcda4d18922b8.jpg https://envs.sh/t7j.jpg https://envs.sh/t7c.jpg  https://envs.sh/t7G.jpg https://envs.sh/t7L.jpg https://envs.sh/t7c.jpg https://envs.sh/t7_.jpg https://envs.sh/tzT.jpg ')).split()
 
 # Bot Admins
 ADMINS = environ.get('ADMINS', '5032034594')
