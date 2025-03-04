@@ -76,10 +76,10 @@ DATABASE_NAME = environ.get('DATABASE_NAME', "pcmovies")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Files')
 
 # Links
-SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/cinema_company2k')
+SUPPORT_LINK = environ.get('SUPPORT_LINK', 'https://t.me/cine_flix01')
 OWNER_USERNAME = environ.get("OWNER_USERNAME", "https://t.me/Farook13")
-UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/Cinema_galaxy_group2')
-FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/Cinema_galaxy_group2')
+UPDATES_LINK = environ.get('UPDATES_LINK', 'https://t.me/cine_flix01')
+FILMS_LINK = environ.get('FILMS_LINK', 'https://t.me/cine_flix01')
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/HA_Bo")
 VERIFY_TUTORIAL = environ.get("VERIFY_TUTORIAL", "https://t.me/")
 
