@@ -59,7 +59,9 @@ FORCE_SUB_CHANNELS = [int(fsub_channels) if fsub_channels.startswith("-") else f
 if len(FORCE_SUB_CHANNELS) == 0:
     print('Info - FORCE_SUB_CHANNELS is empty')
     
-# support group
+TARGET_RESPONSE_TIME = 0.2 
+    
+#  support group
 SUPPORT_GROUP = environ.get('SUPPORT_GROUP', '-1002256041072')
 if len(SUPPORT_GROUP) == 0:
     print('Error - SUPPORT_GROUP is missing, exiting now')
