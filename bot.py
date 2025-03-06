@@ -12,7 +12,7 @@ from pyrogram.errors import FloodWait
 from aiohttp import web
 from typing import Union, Optional, AsyncGenerator
 
-# Local imports (assumed modules - adjust as needed)
+# Local imports
 from web import web_app
 from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS, DATABASE_URL
 from utils import temp, get_readable_time
@@ -34,7 +34,7 @@ class Bot(Client):
         )
 
     async def start_web_server(self):
-        """Start the aiohttp web server for health checks and webhooks."""
+        """Start the aiohttp web server for health checks and other routes."""
         app = web.AppRunner(web_app)
         await app.setup()
         site = web.TCPSite(app, "0.0.0.0", PORT)
@@ -92,11 +92,6 @@ class Bot(Client):
 
         # Start web server as a background task
         asyncio.create_task(self.start_web_server())
-
-        # Optional: Set webhook (uncomment if switching from polling)
-        # webhook_url = f"https://{os.getenv('KOYEB_PUBLIC_DOMAIN')}/webhook"
-        # await self.set_webhook(webhook_url)
-        # print(f"Webhook set to {webhook_url}")
 
         # Notify channels and admins
         try:
