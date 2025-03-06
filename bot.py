@@ -3,7 +3,7 @@ import time
 import asyncio
 import uvloop
 
-# pyrogram imports
+# Pyrogram imports
 from pyrogram import types
 from pyrogram import Client
 from pyrogram.errors import FloodWait
@@ -12,12 +12,10 @@ from pyrogram.errors import FloodWait
 from aiohttp import web
 from typing import Union, Optional, AsyncGenerator
 
-# local imports
+# Local imports (assumed modules - adjust as needed)
 from web import web_app
 from info import LOG_CHANNEL, API_ID, API_HASH, BOT_TOKEN, PORT, BIN_CHANNEL, ADMINS, DATABASE_URL
 from utils import temp, get_readable_time
-
-# pymongo and database imports
 from database.users_chats_db import db
 from database.ia_filterdb import Media
 from pymongo.mongo_client import MongoClient
@@ -35,18 +33,25 @@ class Bot(Client):
             plugins={"root": "plugins"}
         )
 
+    async def start_web_server(self):
+        """Start the aiohttp web server for health checks and webhooks."""
+        app = web.AppRunner(web_app)
+        await app.setup()
+        site = web.TCPSite(app, "0.0.0.0", PORT)
+        await site.start()
+        print(f"Web server running on port {PORT}")
+
     async def start(self):
         # Retry logic for FloodWait
         while True:
             try:
                 await super().start()
-                break  # Exit loop if successful
+                break
             except FloodWait as e:
                 time_ = get_readable_time(e.value)
                 print(f"Warning - Flood Wait Occurred, Wait For: {time_}")
-                await asyncio.sleep(e.value)  # Properly await sleep
+                await asyncio.sleep(e.value)
                 print("Info - Now Ready For Deploying!")
-                continue  # Retry after waiting
 
         # Set startup time
         temp.START_TIME = time.time()
@@ -63,7 +68,7 @@ class Bot(Client):
             print("Successfully connected to MongoDB!")
         except Exception as e:
             print(f"Error - Make sure MongoDB URL is correct: {e}")
-            raise  # Raise exception instead of exit for better error handling
+            raise
 
         # Handle restart notification
         if os.path.exists('restart.txt'):
@@ -85,10 +90,13 @@ class Bot(Client):
         username = '@' + me.username
         print(f"{me.first_name} is started now 🤗")
 
-        # Start web server
-        app = web.AppRunner(web_app)
-        await app.setup()
-        await web.TCPSite(app, "0.0.0.0", PORT).start()
+        # Start web server as a background task
+        asyncio.create_task(self.start_web_server())
+
+        # Optional: Set webhook (uncomment if switching from polling)
+        # webhook_url = f"https://{os.getenv('KOYEB_PUBLIC_DOMAIN')}/webhook"
+        # await self.set_webhook(webhook_url)
+        # print(f"Webhook set to {webhook_url}")
 
         # Notify channels and admins
         try:
@@ -126,5 +134,6 @@ class Bot(Client):
                 yield message
                 current += 1
 
-app = Bot()
-app.run()
+if __name__ == "__main__":
+    app = Bot()
+    app.run()
