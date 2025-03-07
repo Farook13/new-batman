@@ -23,7 +23,7 @@ async def pm_search(client, message):
     ]]
     reply_markup=InlineKeyboardMarkup(btn)
     if int(total) != 0:
-        await message.reply_text(f'<b><i>😎 ᴛᴏᴛᴀʟ <code>{total}</code> ʀᴇꜱᴜʟᴛꜱ ꜰᴏᴜɴᴅ ɪɴ ᴛʜɪꜱ ɢʀᴏᴜᴘ          👇</i></b>', reply_markup=reply_markup)
+        await message.reply_text(f'<b><i>🤗 ᴛᴏᴛᴀʟ <code>{total}</code> ʀᴇꜱᴜʟᴛꜱ ꜰᴏᴜɴᴅ ɪɴ ᴛʜɪꜱ ɢʀᴏᴜᴘ 👇</i></b>', reply_markup=reply_markup)
 
 
 @Client.on_message(filters.group & filters.text & filters.incoming)
@@ -1032,4 +1032,3 @@ async def advantage_spell_chok(message, s):
         await message.delete()
     except:
         pass
-
