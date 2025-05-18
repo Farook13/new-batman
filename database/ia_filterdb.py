@@ -15,7 +15,7 @@ instance = Instance.from_db(db)
 
 @instance.register
 class Media(Document):
-    file_id = fields.StrField(attribute='_id', required=True)
+    _id = fields.StrField(required=True)  # Changed from file_id
     file_name = fields.StrField(required=True)
     file_size = fields.IntField(required=True)
     caption = fields.StrField(allow_none=True)
@@ -27,13 +27,13 @@ class Media(Document):
 async def save_file(media):
     """Save file in database"""
 
-    # TODO: Find better way to get same file_id for same media to avoid duplicates
+    # Generate file ID
     file_id = unpack_new_file_id(media.file_id)
     file_name = re.sub(r"@\w+|(_|\-|\.|\+)", " ", str(media.file_name))
     file_caption = re.sub(r"@\w+|(_|\-|\.|\+)", " ", str(media.caption))
     try:
         file = Media(
-            file_id=file_id,
+            _id=file_id,  # Changed from file_id=
             file_name=file_name,
             file_size=media.file_size,
             caption=file_caption
@@ -52,14 +52,14 @@ async def save_file(media):
             return 'suc'
 
 async def get_search_results(query, max_results=MAX_BTN, offset=0, lang=None):
-    query = str(query) # to ensure the query is string to stripe.
-    query = query.strip()
+    query = str(query).strip()
     if not query:
         raw_pattern = '.'
     elif ' ' not in query:
         raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
     else:
         raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]') 
+
     try:
         regex = re.compile(raw_pattern, flags=re.IGNORECASE)
     except:
@@ -67,8 +67,6 @@ async def get_search_results(query, max_results=MAX_BTN, offset=0, lang=None):
 
     filter = {'file_name': regex}
     cursor = Media.find(filter)
-
-    # Sort by recent
     cursor.sort('$natural', -1)
 
     if lang:
@@ -79,17 +77,15 @@ async def get_search_results(query, max_results=MAX_BTN, offset=0, lang=None):
         if next_offset >= total_results:
             next_offset = ''
         return files, next_offset, total_results
-        
-    # Slice files according to offset and max results
+
     cursor.skip(offset).limit(max_results)
-    # Get list of files
     files = await cursor.to_list(length=max_results)
     total_results = await Media.count_documents(filter)
     next_offset = offset + max_results
     if next_offset >= total_results:
         next_offset = ''       
     return files, next_offset, total_results
-    
+
 async def delete_files(query):
     query = query.strip()
     if not query:
@@ -98,18 +94,19 @@ async def delete_files(query):
         raw_pattern = r'(\b|[\.\+\-_])' + query + r'(\b|[\.\+\-_])'
     else:
         raw_pattern = query.replace(' ', r'.*[\s\.\+\-_]')
-    
+
     try:
         regex = re.compile(raw_pattern, flags=re.IGNORECASE)
     except:
         regex = query
+
     filter = {'file_name': regex}
     total = await Media.count_documents(filter)
     files = Media.find(filter)
     return total, files
 
 async def get_file_details(query):
-    filter = {'file_id': query}
+    filter = {'_id': query}  # Changed from 'file_id'
     cursor = Media.find(filter)
     filedetails = await cursor.to_list(length=1)
     return filedetails
@@ -124,7 +121,6 @@ def encode_file_id(s: bytes) -> str:
             if n:
                 r += b"\x00" + bytes([n])
                 n = 0
-
             r += bytes([i])
     return base64.urlsafe_b64encode(r).decode().rstrip("=")
 
