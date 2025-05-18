@@ -1,7 +1,7 @@
 Pyrofork
 tgcrypto
 motor
-marshmallow
+marshmallow==3.19.0
 umongo
 pymongo
 pytz
