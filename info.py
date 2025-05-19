@@ -28,7 +28,7 @@ API_HASH = environ.get('API_HASH', '49aacd0bc2f8924add29fb02e20c8a16')
 if len(API_HASH) == 0:
     print('Error - API_HASH is missing, exiting now')
     exit()
-BOT_TOKEN = environ.get('BOT_TOKEN', '7955983025:AAGc1kRZ3DJ-H7zZguPxNmSQJmERu5x_viw')
+BOT_TOKEN = environ.get('BOT_TOKEN', '7693803634:AAFIWfW8gfzMYv-G5-I9hAnge1mYFVkspio')
 if len(BOT_TOKEN) == 0:
     print('Error - BOT_TOKEN is missing, exiting now')
     exit()
@@ -70,8 +70,8 @@ else:
     SUPPORT_GROUP = int(SUPPORT_GROUP)
 
 # MongoDB information
-DATABASE_URL = environ.get('DATABASE_URL', "mongodb+srv://batman13:batman13@batman.sawvl.mongodb.net/?retryWrites=true&w=majority&appName=batman")
-if len(DATABASE_URL) == 0:
+DATABASE_URL = environ.get('DATABASE_URL', "mongodb+srv://Skking49:Skking49@sktesting.awlap.mongodb.net/?retryWrites=true&w=majority&appName=Sktesting")
+if len(DATABASE_URL) == 0:an.saw
     print('Error - DATABASE_URL is missing, exiting now')
     exit()
 DATABASE_NAME = environ.get('DATABASE_NAME', "batman13")
